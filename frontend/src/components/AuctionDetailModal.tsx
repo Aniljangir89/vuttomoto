@@ -3,7 +3,7 @@ import { Auction, User, Bid } from '../types';
 import { api } from '../services/api';
 import { socketService } from '../services/socket';
 import { soundManager } from '../utils/audio';
-import { X, Clock, ShieldCheck, Zap, AlertTriangle, Eye, CheckCircle2, History, TrendingUp, CheckSquare } from 'lucide-react';
+import { X, Clock, ShieldCheck, Zap, AlertTriangle, Eye, CheckCircle2, History, TrendingUp, CheckSquare, Store } from 'lucide-react';
 
 interface AuctionDetailModalProps {
   auction: Auction;
@@ -368,6 +368,28 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                     ))}
                   </div>
                 )}
+
+                {/* Seller Provenance & Info Card */}
+                <div className="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center font-bold text-sm shrink-0">
+                      <Store className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-xs font-bold text-white">{auction.motorcycle.seller?.name || 'Verified Moto Garage'}</span>
+                        <span className="bg-amber-500/10 text-amber-400 text-[9px] px-1.5 py-0.2 rounded font-mono uppercase font-bold border border-amber-500/30">VERIFIED SELLER</span>
+                      </div>
+                      <div className="text-[11px] text-slate-400 font-mono">{auction.motorcycle.seller?.email || 'seller@auction.com'}</div>
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-1 justify-end">
+                      <ShieldCheck className="w-3.5 h-3.5" /> Trusted Dealer
+                    </span>
+                    <span className="text-[10px] text-slate-500 font-mono block">Seller ID: {auction.motorcycle.sellerId ? auction.motorcycle.sellerId.slice(0, 8) : 'S-8482'}</span>
+                  </div>
+                </div>
 
                 {/* Description */}
                 <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-800">

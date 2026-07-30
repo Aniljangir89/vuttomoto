@@ -37,6 +37,7 @@ export function App() {
     }
   });
   const [isWatchlistOnly, setIsWatchlistOnly] = useState<boolean>(false);
+  const [isMyListingsOnly, setIsMyListingsOnly] = useState<boolean>(false);
 
   // Sound state
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
@@ -140,13 +141,18 @@ export function App() {
   const handleLogout = () => {
     localStorage.removeItem('vutto_token');
     setUser(null);
+    setIsMyListingsOnly(false);
     addToast('Logged Out', 'Successfully signed out', 'info');
   };
 
-  // Filtered auctions list (including watchlist filter)
-  const displayedAuctions = isWatchlistOnly
-    ? auctions.filter((a) => watchlist.includes(a.id))
-    : auctions;
+  // Filtered auctions list (including watchlist & seller my listings filter)
+  let displayedAuctions = auctions;
+  if (isWatchlistOnly) {
+    displayedAuctions = displayedAuctions.filter((a) => watchlist.includes(a.id));
+  }
+  if (isMyListingsOnly && user) {
+    displayedAuctions = displayedAuctions.filter((a) => a.motorcycle?.sellerId === user.id || a.motorcycle?.seller?.email === user.email);
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans relative overflow-x-hidden">
@@ -179,7 +185,7 @@ export function App() {
         onOpenAdminDashboard={() => setIsAdminOpen(true)}
         isConnected={isConnected}
         watchlistCount={watchlist.length}
-        onToggleWatchlistFilter={() => setIsWatchlistOnly(!isWatchlistOnly)}
+        onToggleWatchlistFilter={() => { setIsWatchlistOnly(!isWatchlistOnly); if (isMyListingsOnly) setIsMyListingsOnly(false); }}
         isWatchlistOnly={isWatchlistOnly}
         soundEnabled={soundEnabled}
         setSoundEnabled={setSoundEnabled}
@@ -227,6 +233,7 @@ export function App() {
       {/* Main Marketplace Grid */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
         <AuctionGrid
+          user={user}
           auctions={displayedAuctions}
           onSelectAuction={(auc) => setSelectedAuction(auc)}
           statusFilter={statusFilter}
@@ -239,6 +246,8 @@ export function App() {
           setSortBy={setSortBy}
           watchlist={watchlist}
           onToggleWatchlist={handleToggleWatchlist}
+          isMyListingsOnly={isMyListingsOnly}
+          onToggleMyListings={() => { setIsMyListingsOnly(!isMyListingsOnly); if (isWatchlistOnly) setIsWatchlistOnly(false); }}
           isLoading={isLoading}
         />
       </main>

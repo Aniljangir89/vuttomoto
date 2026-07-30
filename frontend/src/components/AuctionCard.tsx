@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Auction } from '../types';
-import { Clock, Gauge, Award, Tag, ChevronRight, Heart, ShieldCheck, Zap } from 'lucide-react';
+import { Clock, Gauge, Award, Tag, ChevronRight, Heart, ShieldCheck, Zap, Store } from 'lucide-react';
 
 interface AuctionCardProps {
   auction: Auction;
@@ -179,6 +179,12 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({
           <p className="text-xs text-slate-400 line-clamp-2 mt-1 font-sans">
             {auction.description}
           </p>
+
+          {/* Seller Tag Badge */}
+          <div className="text-[11px] text-amber-400 font-semibold flex items-center gap-1.5 mt-2.5 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-lg w-fit">
+            <Store className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span>Seller: {auction.motorcycle.seller?.name || 'Verified Moto Dealer'}</span>
+          </div>
 
           {/* Key Specs tags */}
           <div className="flex flex-wrap gap-1.5 mt-3">

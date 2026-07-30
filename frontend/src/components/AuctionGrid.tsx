@@ -1,9 +1,10 @@
 import React from 'react';
-import { Auction } from '../types';
+import { Auction, User } from '../types';
 import { AuctionCard } from './AuctionCard';
-import { Search, Filter, ArrowUpDown } from 'lucide-react';
+import { Search, Filter, ArrowUpDown, Store } from 'lucide-react';
 
 interface AuctionGridProps {
+  user: User | null;
   auctions: Auction[];
   onSelectAuction: (auction: Auction) => void;
   statusFilter: string;
@@ -16,10 +17,13 @@ interface AuctionGridProps {
   setSortBy: (sort: string) => void;
   watchlist: string[];
   onToggleWatchlist: (auctionId: string, e: React.MouseEvent) => void;
+  isMyListingsOnly: boolean;
+  onToggleMyListings: () => void;
   isLoading?: boolean;
 }
 
 export const AuctionGrid: React.FC<AuctionGridProps> = ({
+  user,
   auctions,
   onSelectAuction,
   statusFilter,
@@ -32,6 +36,8 @@ export const AuctionGrid: React.FC<AuctionGridProps> = ({
   setSortBy,
   watchlist,
   onToggleWatchlist,
+  isMyListingsOnly,
+  onToggleMyListings,
   isLoading
 }) => {
   const makes = ['ALL', 'Ducati', 'BMW', 'Kawasaki', 'Yamaha', 'Honda', 'Harley-Davidson'];
@@ -53,14 +59,14 @@ export const AuctionGrid: React.FC<AuctionGridProps> = ({
           />
         </div>
 
-        {/* Status Tabs (Scrollable on small mobile screens) */}
+        {/* Status Tabs & My Listings Toggle (Scrollable on small mobile screens) */}
         <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto w-full lg:w-auto no-scrollbar">
           {['ALL', 'LIVE', 'SCHEDULED', 'SOLD'].map((status) => (
             <button
               key={status}
-              onClick={() => setStatusFilter(status)}
+              onClick={() => { setStatusFilter(status); if (isMyListingsOnly) onToggleMyListings(); }}
               className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold whitespace-nowrap transition ${
-                statusFilter === status
+                statusFilter === status && !isMyListingsOnly
                   ? 'bg-orange-500 text-slate-950 shadow-md font-bold'
                   : 'text-slate-400 hover:text-white hover:bg-slate-900'
               }`}
@@ -68,6 +74,20 @@ export const AuctionGrid: React.FC<AuctionGridProps> = ({
               {status}
             </button>
           ))}
+
+          {user && (user.role === 'SELLER' || user.role === 'ADMIN') && (
+            <button
+              onClick={onToggleMyListings}
+              className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold whitespace-nowrap transition flex items-center gap-1 ${
+                isMyListingsOnly
+                  ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                  : 'text-amber-400 hover:bg-slate-900'
+              }`}
+            >
+              <Store className="w-3.5 h-3.5" />
+              <span>My Listings</span>
+            </button>
+          )}
         </div>
 
         {/* Filters Dropdown Group */}
@@ -119,8 +139,12 @@ export const AuctionGrid: React.FC<AuctionGridProps> = ({
       ) : auctions.length === 0 ? (
         <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-8 sm:p-12 text-center">
           <div className="text-4xl mb-3">🏍️</div>
-          <h3 className="text-base sm:text-lg font-bold text-white mb-1">No Auctions Match Criteria</h3>
-          <p className="text-xs text-slate-400">Try clearing filters or search terms.</p>
+          <h3 className="text-base sm:text-lg font-bold text-white mb-1">
+            {isMyListingsOnly ? 'You Have Not Listed Any Motorcycles Yet' : 'No Auctions Match Criteria'}
+          </h3>
+          <p className="text-xs text-slate-400">
+            {isMyListingsOnly ? 'Use the "List Motorcycle" button to put a vehicle up for live bidding.' : 'Try clearing filters or search terms.'}
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
