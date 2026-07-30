@@ -19,7 +19,7 @@ const loginSchema = z.object({
   password: z.string()
 });
 
-function generateToken(user: { id: string; email: string; name: string; role: 'BUYER' | 'SELLER' | 'ADMIN' }) {
+function generateToken(user: { id: string; email: string; name: string; role: string }) {
   return jwt.sign(
     { id: user.id, email: user.email, name: user.name, role: user.role },
     config.jwtSecret,
