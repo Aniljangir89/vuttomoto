@@ -402,17 +402,17 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-xs font-bold text-white">{auction.motorcycle.seller?.name || 'Verified Moto Garage'}</span>
+                        <span className="text-xs font-bold text-white">{auction?.motorcycle?.seller?.name || 'Verified Moto Garage'}</span>
                         <span className="bg-amber-500/10 text-amber-400 text-[9px] px-1.5 py-0.2 rounded font-mono uppercase font-bold border border-amber-500/30">VERIFIED SELLER</span>
                       </div>
-                      <div className="text-[11px] text-slate-400 font-mono">{auction.motorcycle.seller?.email || 'seller@auction.com'}</div>
+                      <div className="text-[11px] text-slate-400 font-mono">{auction?.motorcycle?.seller?.email || 'seller@auction.com'}</div>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
                     <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-1 justify-end">
                       <ShieldCheck className="w-3.5 h-3.5" /> Trusted Dealer
                     </span>
-                    <span className="text-[10px] text-slate-500 font-mono block">Seller ID: {auction.motorcycle.sellerId ? auction.motorcycle.sellerId.slice(0, 8) : 'S-8482'}</span>
+                    <span className="text-[10px] text-slate-500 font-mono block">Seller ID: {auction?.motorcycle?.sellerId ? auction.motorcycle.sellerId.slice(0, 8) : 'S-8482'}</span>
                   </div>
                 </div>
 
@@ -428,19 +428,19 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                   <div className="grid grid-cols-2 gap-2.5 text-xs">
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Engine Capacity</span>
-                      <span className="font-mono font-bold text-white text-xs sm:text-sm">{auction.motorcycle.engineCc} cc</span>
+                      <span className="font-mono font-bold text-white text-xs sm:text-sm">{auction?.motorcycle?.engineCc || 998} cc</span>
                     </div>
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Odometer</span>
-                      <span className="font-mono font-bold text-white text-xs sm:text-sm">{auction.motorcycle.mileage.toLocaleString()} mi</span>
+                      <span className="font-mono font-bold text-white text-xs sm:text-sm">{auction?.motorcycle?.mileage ? auction.motorcycle.mileage.toLocaleString() : '0'} mi</span>
                     </div>
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Condition Grade</span>
-                      <span className="font-mono font-bold text-orange-400 text-xs sm:text-sm">{auction.motorcycle.condition}</span>
+                      <span className="font-mono font-bold text-orange-400 text-xs sm:text-sm">{auction?.motorcycle?.condition || 'Mint'}</span>
                     </div>
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Title Status</span>
-                      <span className="font-mono font-bold text-emerald-400 text-xs sm:text-sm">{auction.motorcycle.titleStatus} Title</span>
+                      <span className="font-mono font-bold text-emerald-400 text-xs sm:text-sm">{auction?.motorcycle?.titleStatus || 'Clean'} Title</span>
                     </div>
 
                     {Object.entries(specs).map(([key, val]) => (

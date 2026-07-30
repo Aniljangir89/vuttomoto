@@ -237,6 +237,21 @@ export async function placeBid(params: {
         currentBid: finalBidAmount,
         winningUserId: newWinningUserId,
         endTime: updatedEndTime
+      },
+      include: {
+        motorcycle: {
+          include: {
+            seller: { select: { id: true, name: true, email: true } }
+          }
+        },
+        winningUser: { select: { id: true, name: true, email: true } },
+        bids: {
+          orderBy: { timestamp: 'desc' },
+          take: 50,
+          include: {
+            user: { select: { id: true, name: true, email: true } }
+          }
+        }
       }
     });
 

@@ -158,10 +158,10 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({
         {/* Bottom Bike Year / Engine Badge */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
           <span className="bg-slate-950/90 backdrop-blur-md text-slate-200 text-xs px-2 py-0.5 rounded-md font-mono font-medium border border-slate-800">
-            {auction.motorcycle.year}
+            {auction?.motorcycle?.year || 2024}
           </span>
           <span className="bg-slate-950/90 backdrop-blur-md text-amber-400 text-xs px-2 py-0.5 rounded-md font-mono font-medium border border-slate-800">
-            {auction.motorcycle.engineCc} cc
+            {auction?.motorcycle?.engineCc || 998} cc
           </span>
         </div>
       </div>
@@ -170,7 +170,7 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
           <div className="text-xs font-semibold text-orange-400 uppercase tracking-widest mb-1 flex items-center justify-between">
-            <span>{auction.motorcycle.make}</span>
+            <span>{auction?.motorcycle?.make || 'SUPERBIKE'}</span>
             <span className="text-[10px] text-slate-500 font-mono">ID: {auction.id.slice(0, 6)}</span>
           </div>
           <h2 className="text-lg font-bold text-white group-hover:text-orange-400 transition-colors line-clamp-1">
@@ -183,22 +183,22 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({
           {/* Seller Tag Badge */}
           <div className="text-[11px] text-amber-400 font-semibold flex items-center gap-1.5 mt-2.5 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-lg w-fit">
             <Store className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span>Seller: {auction.motorcycle.seller?.name || 'Verified Moto Dealer'}</span>
+            <span>Seller: {auction?.motorcycle?.seller?.name || 'Verified Moto Dealer'}</span>
           </div>
 
           {/* Key Specs tags */}
           <div className="flex flex-wrap gap-1.5 mt-3">
             <span className="text-[11px] text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded-md flex items-center gap-1 border border-slate-700/50">
               <Gauge className="w-3 h-3 text-slate-400" />
-              {auction.motorcycle.mileage.toLocaleString()} mi
+              {auction?.motorcycle?.mileage ? auction.motorcycle.mileage.toLocaleString() : '0'} mi
             </span>
             <span className="text-[11px] text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded-md flex items-center gap-1 border border-slate-700/50">
               <Award className="w-3 h-3 text-slate-400" />
-              {auction.motorcycle.condition}
+              {auction?.motorcycle?.condition || 'Mint'}
             </span>
             <span className="text-[11px] text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded-md flex items-center gap-1 border border-slate-700/50">
               <Tag className="w-3 h-3 text-slate-400" />
-              {auction.motorcycle.titleStatus} Title
+              {auction?.motorcycle?.titleStatus || 'Clean'} Title
             </span>
           </div>
         </div>
