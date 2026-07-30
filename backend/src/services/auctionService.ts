@@ -112,7 +112,18 @@ export async function createAuction(data: {
   antiSnipeSeconds?: number;
 }) {
   const motorcycle = await prisma.motorcycle.create({
-    data: data.motorcycle
+    data: {
+      make: data.motorcycle.make,
+      model: data.motorcycle.model,
+      year: data.motorcycle.year,
+      mileage: data.motorcycle.mileage,
+      engineCc: data.motorcycle.engineCc,
+      condition: data.motorcycle.condition,
+      titleStatus: data.motorcycle.titleStatus,
+      imagesJson: data.motorcycle.imagesJson,
+      specsJson: data.motorcycle.specsJson,
+      sellerId: data.motorcycle.sellerId
+    }
   });
 
   const now = new Date();

@@ -41,18 +41,20 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80 shadow-2xl">
-      {/* Top Demo Login Toolbar */}
-      <div className="bg-slate-900/90 border-b border-slate-800/60 px-3 sm:px-6 py-1.5 text-xs text-slate-400">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="font-semibold text-orange-400 flex items-center gap-1 text-[11px] sm:text-xs">
+    <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/80 shadow-2xl">
+      {/* Top Demo Login Toolbar - 100% Mobile Responsive */}
+      <div className="bg-slate-900/90 border-b border-slate-800/60 px-3 sm:px-6 py-2 sm:py-1.5 text-xs text-slate-400">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+          
+          {/* Demo switcher buttons */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2">
+            <span className="font-semibold text-orange-400 flex items-center gap-1 text-[11px] shrink-0">
               <Flame className="w-3.5 h-3.5 text-orange-500" /> Demo Switcher:
             </span>
-            <div className="flex items-center gap-1">
+            <div className="grid grid-cols-2 sm:flex items-center gap-1.5 w-full sm:w-auto">
               <button
                 onClick={() => onQuickLogin('BUYER')}
-                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition ${
+                className={`px-2.5 py-1 sm:py-0.5 rounded text-[11px] font-semibold transition text-center ${
                   user?.email === 'buyer1@auction.com'
                     ? 'bg-orange-500 text-white font-bold shadow-sm'
                     : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
@@ -62,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => onQuickLogin('BUYER_2')}
-                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition ${
+                className={`px-2.5 py-1 sm:py-0.5 rounded text-[11px] font-semibold transition text-center ${
                   user?.email === 'buyer2@auction.com'
                     ? 'bg-orange-500 text-white font-bold shadow-sm'
                     : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
@@ -72,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => onQuickLogin('SELLER')}
-                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition ${
+                className={`px-2.5 py-1 sm:py-0.5 rounded text-[11px] font-semibold transition text-center ${
                   user?.role === 'SELLER'
                     ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
                     : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
@@ -82,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => onQuickLogin('ADMIN')}
-                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition ${
+                className={`px-2.5 py-1 sm:py-0.5 rounded text-[11px] font-semibold transition text-center ${
                   user?.role === 'ADMIN'
                     ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm'
                     : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
@@ -93,24 +95,29 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={toggleSound}
-              title={soundEnabled ? 'Mute sound' : 'Enable sound'}
-              className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
-            >
-              {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-orange-400" /> : <VolumeX className="w-3.5 h-3.5 text-slate-500" />}
-            </button>
+          {/* Status & Sound Controls */}
+          <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-slate-800/60">
+            <span className="text-[10px] text-slate-400 font-mono sm:hidden">Connection Status</span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={toggleSound}
+                title={soundEnabled ? 'Mute sound' : 'Enable sound'}
+                className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
+              >
+                {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-orange-400" /> : <VolumeX className="w-3.5 h-3.5 text-slate-500" />}
+              </button>
 
-            <span className="flex items-center gap-1.5 text-slate-400 pl-2 border-l border-slate-800">
-              <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500 animate-ping' : 'bg-red-500'}`} />
-              <span className="text-[10px] font-mono">{isConnected ? 'LIVE' : 'OFFLINE'}</span>
-            </span>
+              <span className="flex items-center gap-1.5 text-slate-400 pl-2 border-l border-slate-800">
+                <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500 animate-ping' : 'bg-red-500'}`} />
+                <span className="text-[10px] font-mono">{isConnected ? 'LIVE' : 'OFFLINE'}</span>
+              </span>
+            </div>
           </div>
+
         </div>
       </div>
 
-      {/* Main Bar */}
+      {/* Main Clean Header Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
@@ -121,7 +128,6 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-display font-black tracking-wider text-white uppercase">Vutto<span className="text-orange-500">Moto</span></h1>
-            <span className="bg-orange-500/10 text-orange-400 border border-orange-500/30 text-[10px] px-2 py-0.5 rounded-full font-mono font-bold tracking-widest hidden sm:inline-block">LIVE AUCTIONS</span>
           </div>
         </div>
 

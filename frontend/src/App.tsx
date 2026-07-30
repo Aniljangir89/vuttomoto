@@ -245,16 +245,12 @@ export function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
-            <span className="font-bold text-slate-300">VUTTO MOTO</span> • Production-Grade Bike Auction Architecture
+            <span className="font-bold text-slate-300">VUTTO MOTO</span> • Premier Motorcycle Auction Marketplace
           </div>
-          <div className="flex items-center gap-3 sm:gap-4 font-mono text-[10px] sm:text-[11px]">
-            <span>SQLite + Prisma</span>
-            <span>•</span>
-            <span>Socket.io Real-Time</span>
-            <span>•</span>
-            <span>Anti-Sniping Engine</span>
+          <div className="text-[11px] text-slate-400">
+            © {new Date().getFullYear()} Vutto Moto. All rights reserved.
           </div>
         </div>
       </footer>
