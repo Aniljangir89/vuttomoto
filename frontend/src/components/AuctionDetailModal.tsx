@@ -158,6 +158,21 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
     await submitBid(amount, proxy);
   };
 
+  const isSeller = user && (user.id === auction.motorcycle.sellerId || user.email === auction.motorcycle.seller?.email || user.role === 'ADMIN');
+
+  const handleSellerAction = async (status: string) => {
+    try {
+      setIsSubmitting(true);
+      const res = await api.updateAuctionStatus(auction.id, status);
+      setAuction(res.auction);
+      onAuctionUpdated();
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Failed to update status');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const submitBid = async (amount: number, proxyCap?: number) => {
     if (!user) {
       onOpenAuth();
@@ -599,6 +614,33 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                       <span>{isSubmitting ? 'Transmitting Bid...' : 'PLACE CONFIRMED BID'}</span>
                     </button>
                   </form>
+
+                  {/* Seller Direct Actions */}
+                  {isSeller && auction.status === 'LIVE' && (
+                    <div className="bg-slate-950 p-3 rounded-xl border border-amber-500/30 space-y-2 mt-3">
+                      <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1">
+                        <Store className="w-3.5 h-3.5" /> Seller Controls
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleSellerAction('ENDED')}
+                          disabled={isSubmitting || bids.length === 0}
+                          className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2 rounded-lg text-[11px] transition disabled:opacity-40"
+                        >
+                          Accept Bid & Sell Now
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSellerAction('CANCELLED')}
+                          disabled={isSubmitting}
+                          className="bg-slate-800 hover:bg-slate-700 text-red-400 font-semibold py-2 rounded-lg text-[11px] border border-slate-700 disabled:opacity-40"
+                        >
+                          Cancel Listing
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="bg-slate-900 p-3 rounded-xl text-center border border-slate-800">

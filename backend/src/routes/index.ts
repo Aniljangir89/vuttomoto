@@ -18,7 +18,7 @@ router.get('/auth/me', authenticateToken, authController.getMe);
 router.get('/auctions', auctionController.listAuctions);
 router.get('/auctions/:id', auctionController.getAuction);
 router.post('/auctions', authenticateToken, requireRole(['SELLER', 'ADMIN']), auctionController.createAuctionHandler);
-router.patch('/auctions/:id/status', authenticateToken, requireRole(['ADMIN']), auctionController.updateStatusHandler);
+router.patch('/auctions/:id/status', authenticateToken, requireRole(['SELLER', 'ADMIN']), auctionController.updateStatusHandler);
 router.patch('/auctions/:id/reserve-price', authenticateToken, requireRole(['ADMIN', 'SELLER']), auctionController.updateReservePriceHandler);
 
 // Bid endpoints
