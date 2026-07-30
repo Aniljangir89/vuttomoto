@@ -3,7 +3,7 @@ import { Auction, User, Bid } from '../types';
 import { api } from '../services/api';
 import { socketService } from '../services/socket';
 import { soundManager } from '../utils/audio';
-import { X, Clock, ShieldCheck, Zap, AlertTriangle, Eye, CheckCircle2, History, TrendingUp, CheckSquare, Sparkles } from 'lucide-react';
+import { X, Clock, ShieldCheck, Zap, AlertTriangle, Eye, CheckCircle2, History, TrendingUp, CheckSquare } from 'lucide-react';
 
 interface AuctionDetailModalProps {
   auction: Auction;
@@ -197,7 +197,7 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
     const sortedBids = [...bids].reverse();
     if (sortedBids.length < 2) {
       return (
-        <div className="p-8 text-center text-xs text-slate-500">
+        <div className="p-6 text-center text-xs text-slate-500">
           Not enough bid history data points to generate price escalation chart.
         </div>
       );
@@ -228,7 +228,7 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
             +{Math.round(((maxVal - minVal) / minVal) * 100)}% Growth
           </span>
         </div>
-        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-32 overflow-visible">
+        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-28 sm:h-32 overflow-visible">
           <defs>
             <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#f97316" stopOpacity="0.4" />
@@ -248,21 +248,21 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-950/85 backdrop-blur-xl animate-fade-in">
-      <div className="relative w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl my-8 animate-scale-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 lg:p-6 overflow-y-auto bg-slate-950/90 backdrop-blur-xl animate-fade-in">
+      <div className="relative w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl my-auto animate-scale-in max-h-[92vh] flex flex-col">
         
         {/* Anti-Sniping Real-time Notification Banner */}
         {antiSnipeNotification && (
-          <div className="bg-amber-500 text-slate-950 px-4 py-2.5 font-bold text-xs flex items-center justify-between animate-pulse">
+          <div className="bg-amber-500 text-slate-950 px-4 py-2 font-bold text-xs flex items-center justify-between animate-pulse">
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 fill-slate-950" />
-              <span>ANTI-SNIPING TRIGGERED: Auction end time auto-extended by +2 Minutes!</span>
+              <span>ANTI-SNIPING TRIGGERED: Auction end time extended by +2 Minutes!</span>
             </div>
           </div>
         )}
 
         {/* Top Header Controls */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-800 bg-slate-950/50">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-800 bg-slate-950/60 shrink-0">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-orange-400 uppercase tracking-widest">
@@ -270,69 +270,69 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
               </span>
               <span className="text-slate-600">•</span>
               <span className="text-xs text-slate-400 font-mono">
-                ID: {auction.id.slice(0, 8)}
+                ID: {auction.id.slice(0, 6)}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-white">{auction.title}</h2>
+            <h2 className="text-lg sm:text-2xl font-display font-black text-white line-clamp-1">{auction.title}</h2>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="bg-slate-800/80 text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded-full text-xs font-mono font-medium flex items-center gap-1.5">
-              <Eye className="w-4 h-4" />
-              <span>{viewerCount} Viewing</span>
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="bg-slate-800/80 text-cyan-400 border border-cyan-500/30 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium flex items-center gap-1">
+              <Eye className="w-3.5 h-3.5" />
+              <span>{viewerCount}</span>
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
+              className="p-1.5 sm:p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 px-6 pt-3 border-b border-slate-800/80 bg-slate-950/30 text-xs font-semibold">
+        {/* Navigation Tabs (Scrollable on small mobile screens) */}
+        <div className="flex items-center gap-1 sm:gap-2 px-4 sm:px-6 pt-3 border-b border-slate-800/80 bg-slate-950/30 text-xs font-semibold overflow-x-auto no-scrollbar shrink-0">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`px-4 py-2 rounded-t-xl transition border-t border-x ${
+            className={`px-3 sm:px-4 py-2 rounded-t-xl transition whitespace-nowrap border-t border-x ${
               activeTab === 'overview'
                 ? 'bg-slate-900 border-slate-800 text-orange-400 font-bold'
                 : 'border-transparent text-slate-400 hover:text-white'
             }`}
           >
-            Vehicle Overview & Specs
+            Overview & Specs
           </button>
           <button
             onClick={() => setActiveTab('inspection')}
-            className={`px-4 py-2 rounded-t-xl transition border-t border-x ${
+            className={`px-3 sm:px-4 py-2 rounded-t-xl transition whitespace-nowrap border-t border-x ${
               activeTab === 'inspection'
                 ? 'bg-slate-900 border-slate-800 text-orange-400 font-bold'
                 : 'border-transparent text-slate-400 hover:text-white'
             }`}
           >
             <span className="flex items-center gap-1">
-              <CheckSquare className="w-3.5 h-3.5 text-emerald-400" /> Verified 15-Point Inspection
+              <CheckSquare className="w-3.5 h-3.5 text-emerald-400" /> 15-Point Inspection
             </span>
           </button>
           <button
             onClick={() => setActiveTab('analytics')}
-            className={`px-4 py-2 rounded-t-xl transition border-t border-x ${
+            className={`px-3 sm:px-4 py-2 rounded-t-xl transition whitespace-nowrap border-t border-x ${
               activeTab === 'analytics'
                 ? 'bg-slate-900 border-slate-800 text-orange-400 font-bold'
                 : 'border-transparent text-slate-400 hover:text-white'
             }`}
           >
             <span className="flex items-center gap-1">
-              <TrendingUp className="w-3.5 h-3.5 text-cyan-400" /> Bidding Escalation Analytics
+              <TrendingUp className="w-3.5 h-3.5 text-cyan-400" /> Price Analytics
             </span>
           </button>
         </div>
 
-        {/* Modal Body Layout */}
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 max-h-[75vh] overflow-y-auto">
+        {/* Modal Body Layout (Scrollable container) */}
+        <div className="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto flex-1">
           
-          {/* Left Column (7 cols) */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Left Column (7 cols on desktop, full width on mobile) */}
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6">
 
             {activeTab === 'overview' && (
               <>
@@ -343,8 +343,8 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                     alt={auction.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-4 left-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold font-mono ${
+                  <div className="absolute top-3 left-3">
+                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold font-mono ${
                       auction.status === 'LIVE' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'
                     }`}>
                       {auction.status}
@@ -354,12 +354,12 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
 
                 {/* Thumbnail selector */}
                 {images.length > 1 && (
-                  <div className="flex items-center gap-3 overflow-x-auto pb-1">
+                  <div className="flex items-center gap-2 overflow-x-auto pb-1">
                     {images.map((img, idx) => (
                       <button
                         key={idx}
                         onClick={() => setSelectedImageIndex(idx)}
-                        className={`relative w-20 h-14 rounded-lg overflow-hidden border-2 transition ${
+                        className={`relative w-16 sm:w-20 h-12 sm:h-14 rounded-lg overflow-hidden border-2 transition shrink-0 ${
                           selectedImageIndex === idx ? 'border-orange-500 opacity-100' : 'border-slate-800 opacity-60 hover:opacity-100'
                         }`}
                       >
@@ -378,28 +378,28 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                 {/* Detailed Technical Specs Table */}
                 <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-800">
                   <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Verified Technical Specifications</h3>
-                  <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div className="grid grid-cols-2 gap-2.5 text-xs">
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Engine Capacity</span>
-                      <span className="font-mono font-bold text-white text-sm">{auction.motorcycle.engineCc} cc</span>
+                      <span className="font-mono font-bold text-white text-xs sm:text-sm">{auction.motorcycle.engineCc} cc</span>
                     </div>
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Odometer</span>
-                      <span className="font-mono font-bold text-white text-sm">{auction.motorcycle.mileage.toLocaleString()} miles</span>
+                      <span className="font-mono font-bold text-white text-xs sm:text-sm">{auction.motorcycle.mileage.toLocaleString()} mi</span>
                     </div>
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Condition Grade</span>
-                      <span className="font-mono font-bold text-orange-400 text-sm">{auction.motorcycle.condition}</span>
+                      <span className="font-mono font-bold text-orange-400 text-xs sm:text-sm">{auction.motorcycle.condition}</span>
                     </div>
                     <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                       <span className="text-slate-400 block text-[10px] uppercase">Title Status</span>
-                      <span className="font-mono font-bold text-emerald-400 text-sm">{auction.motorcycle.titleStatus} Title</span>
+                      <span className="font-mono font-bold text-emerald-400 text-xs sm:text-sm">{auction.motorcycle.titleStatus} Title</span>
                     </div>
 
                     {Object.entries(specs).map(([key, val]) => (
                       <div key={key} className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                         <span className="text-slate-400 block text-[10px] uppercase">{key}</span>
-                        <span className="font-mono font-medium text-slate-200">{String(val)}</span>
+                        <span className="font-mono font-medium text-slate-200 text-xs truncate block">{String(val)}</span>
                       </div>
                     ))}
                   </div>
@@ -408,26 +408,26 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
             )}
 
             {activeTab === 'inspection' && (
-              <div className="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 space-y-4 text-xs">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="bg-slate-950/80 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-4 text-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                     <div>
                       <h3 className="font-bold text-white">Certified Master Mechanic Inspection Report</h3>
-                      <p className="text-[10px] text-slate-400">Inspected & Verified by Vutto Moto Technical Auditors</p>
+                      <p className="text-[10px] text-slate-400">Inspected & Verified by Technical Auditors</p>
                     </div>
                   </div>
-                  <span className="bg-emerald-500/20 text-emerald-400 font-bold px-2.5 py-1 rounded-full border border-emerald-500/40">
+                  <span className="self-start sm:self-auto bg-emerald-500/20 text-emerald-400 font-bold px-2.5 py-1 rounded-full border border-emerald-500/40 text-[10px]">
                     GRADE 100/100
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {[
-                    { title: 'Frame Integrity & Alignment', status: 'PASS - Zero stress cracks or bends' },
+                    { title: 'Frame Integrity & Alignment', status: 'PASS - Zero stress cracks' },
                     { title: 'Engine Compression Check', status: 'PASS - Factory 13.5:1 specs' },
                     { title: 'Transmission & Quickshifter', status: 'PASS - Smooth engagement' },
-                    { title: 'Brembo Brake Systems', status: 'PASS - 90% Pad life remaining' },
+                    { title: 'Brembo Brake Systems', status: 'PASS - 90% Pad life' },
                     { title: 'Öhlins Suspension Seals', status: 'PASS - No leaks detected' },
                     { title: 'Electrical & ECU Diagnostics', status: 'PASS - Zero error codes' }
                   ].map((item, idx) => (
@@ -448,50 +448,50 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
 
           </div>
 
-          {/* Right Column: Live Bidding Console & Feed (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Right Column: Live Bidding Console & Feed (5 cols on desktop) */}
+          <div className="lg:col-span-5 space-y-4 sm:space-y-6">
 
             {/* Current Price & Timer Console Box */}
-            <div className="bg-gradient-to-b from-slate-950 to-slate-900 p-6 rounded-2xl border border-orange-500/30 neon-border-orange space-y-4">
+            <div className="bg-gradient-to-b from-slate-950 to-slate-900 p-4 sm:p-6 rounded-2xl border border-orange-500/30 neon-border-orange space-y-4">
               
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-xs text-slate-400 uppercase tracking-wider block">Current High Bid</span>
-                  <span className="text-3xl font-black text-white font-mono">{formatUSD(auction.currentBid > 0 ? auction.currentBid : auction.startingBid)}</span>
+                  <span className="text-[11px] text-slate-400 uppercase tracking-wider block">Current High Bid</span>
+                  <span className="text-2xl sm:text-3xl font-black text-white font-mono">{formatUSD(auction.currentBid > 0 ? auction.currentBid : auction.startingBid)}</span>
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[11px] text-slate-400 uppercase tracking-wider block flex items-center gap-1 justify-end">
-                    <Clock className="w-3.5 h-3.5 text-orange-400" /> Time Remaining
+                  <span className="text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider block flex items-center gap-1 justify-end">
+                    <Clock className="w-3.5 h-3.5 text-orange-400" /> Remaining
                   </span>
-                  <span className="text-lg font-bold font-mono text-orange-400">{timeLeft}</span>
+                  <span className="text-base sm:text-lg font-bold font-mono text-orange-400">{timeLeft}</span>
                 </div>
               </div>
 
               {/* Reserve Price Met Tag */}
               <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-                <span className="text-slate-400">Reserve Price Status:</span>
+                <span className="text-slate-400">Reserve Price:</span>
                 {reserveMet ? (
-                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                  <span className="text-emerald-400 font-bold flex items-center gap-1 text-[11px]">
                     <CheckCircle2 className="w-4 h-4" /> Reserve Met
                   </span>
                 ) : (
-                  <span className="text-amber-400 font-medium">Reserve Not Met (Starts ${auction.reservePrice.toLocaleString()})</span>
+                  <span className="text-amber-400 font-medium text-[11px]">Reserve Not Met (${auction.reservePrice.toLocaleString()})</span>
                 )}
               </div>
 
               {/* Anti-Sniping Protection Notice */}
               <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>Anti-Sniping Enabled: Bids in final 2m extend clock by 2m.</span>
+                <span>Anti-Sniping: Bids in final 2m extend clock by 2m.</span>
               </div>
 
               {/* Bidding Control Panel */}
               {auction.status === 'LIVE' ? (
-                <div className="space-y-3 pt-2">
+                <div className="space-y-3 pt-1">
                   
                   {errorMessage && (
-                    <div className="bg-red-500/10 border border-red-500/40 p-3 rounded-xl text-xs text-red-400 flex items-center gap-2">
+                    <div className="bg-red-500/10 border border-red-500/40 p-2.5 rounded-xl text-xs text-red-400 flex items-center gap-2">
                       <AlertTriangle className="w-4 h-4 shrink-0" />
                       <span>{errorMessage}</span>
                     </div>
@@ -499,7 +499,7 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
 
                   {/* Quick Bid Increment Buttons */}
                   <div>
-                    <label className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block mb-1.5">
+                    <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block mb-1.5">
                       1-Click Instant Bids
                     </label>
                     <div className="grid grid-cols-3 gap-2">
@@ -508,7 +508,7 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                           key={inc}
                           onClick={() => handleQuickBid(inc)}
                           disabled={isSubmitting}
-                          className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 rounded-xl text-xs transition border border-slate-700 hover:border-orange-500/40 disabled:opacity-50"
+                          className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-xs transition border border-slate-700 hover:border-orange-500/40 disabled:opacity-50"
                         >
                           +${inc}
                         </button>
@@ -520,7 +520,7 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                   <form onSubmit={handleCustomBid} className="space-y-3">
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <label className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">
+                        <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                           Custom Bid (Min: {formatUSD(minNextBid)})
                         </label>
                       </div>
@@ -562,7 +562,7 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-orange-500"
                           />
                           <p className="text-[10px] text-slate-400 mt-1">
-                            System will automatically counter-bid up to your cap.
+                            System will counter-bid up to your cap.
                           </p>
                         </div>
                       )}
@@ -579,9 +579,9 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                   </form>
                 </div>
               ) : (
-                <div className="bg-slate-900 p-4 rounded-xl text-center border border-slate-800">
+                <div className="bg-slate-900 p-3 rounded-xl text-center border border-slate-800">
                   <span className="text-xs font-bold text-slate-400">
-                    Bidding is closed for this auction ({auction.status})
+                    Bidding is closed ({auction.status})
                   </span>
                 </div>
               )}
@@ -595,36 +595,36 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
                 </h3>
               </div>
 
-              <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
                 {bids.length === 0 ? (
                   <p className="text-xs text-slate-500 text-center py-4">No bids placed yet. Be the first to bid!</p>
                 ) : (
                   bids.map((b, idx) => (
                     <div
                       key={b.id || idx}
-                      className={`p-3 rounded-xl border flex items-center justify-between text-xs transition ${
+                      className={`p-2.5 sm:p-3 rounded-xl border flex items-center justify-between text-xs transition ${
                         idx === 0
-                          ? 'bg-orange-500/10 border-orange-500/30 text-white font-semibold bid-flash'
+                          ? 'bg-orange-500/10 border-orange-500/30 text-white font-semibold'
                           : 'bg-slate-900/80 border-slate-800 text-slate-300'
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                        <div className={`w-6 sm:w-7 h-6 sm:h-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
                           idx === 0 ? 'bg-orange-500 text-slate-950' : 'bg-slate-800 text-slate-300'
                         }`}>
                           {b.user?.name?.slice(0, 2).toUpperCase() || 'U'}
                         </div>
-                        <div>
-                          <div className="font-semibold text-slate-200">{b.user?.name || 'Bidder'}</div>
-                          <div className="text-[10px] text-slate-500 font-mono">
+                        <div className="min-w-0">
+                          <div className="font-semibold text-slate-200 truncate max-w-[100px] sm:max-w-[140px]">{b.user?.name || 'Bidder'}</div>
+                          <div className="text-[9px] sm:text-[10px] text-slate-500 font-mono">
                             {new Date(b.timestamp).toLocaleTimeString()}
                           </div>
                         </div>
                       </div>
 
-                      <div className="text-right">
+                      <div className="text-right shrink-0">
                         <div className="font-mono font-bold text-xs text-white">{formatUSD(b.amount)}</div>
-                        {idx === 0 && <span className="text-[9px] text-orange-400 font-bold uppercase tracking-wider block">HIGH BIDDER</span>}
+                        {idx === 0 && <span className="text-[8px] sm:text-[9px] text-orange-400 font-bold uppercase tracking-wider block">HIGH BIDDER</span>}
                       </div>
                     </div>
                   ))

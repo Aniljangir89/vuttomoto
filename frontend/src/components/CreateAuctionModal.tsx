@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
-import { X, Plus, Image as ImageIcon } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface CreateAuctionModalProps {
   onClose: () => void;
@@ -69,28 +69,28 @@ export const CreateAuctionModal: React.FC<CreateAuctionModalProps> = ({ onClose,
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-slate-950/80 backdrop-blur-md">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl my-8 p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto bg-slate-950/90 backdrop-blur-xl animate-fade-in">
+      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl my-auto p-4 sm:p-6 max-h-[90vh] flex flex-col animate-scale-in">
         
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+        <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-slate-800 mb-4 shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-white">Publish New Motorcycle Auction</h2>
-            <p className="text-xs text-slate-400">Set reserve prices, vehicle specs, and auction duration</p>
+            <h2 className="text-lg sm:text-xl font-bold text-white">Publish Motorcycle Listing</h2>
+            <p className="text-[11px] text-slate-400">Set reserve prices, vehicle specs, and auction duration</p>
           </div>
-          <button onClick={onClose} className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white">
+          <button onClick={onClose} className="p-1.5 sm:p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {error && (
-          <div className="mb-4 bg-red-500/10 border border-red-500/40 p-3 rounded-xl text-xs text-red-400">
+          <div className="mb-4 bg-red-500/10 border border-red-500/40 p-3 rounded-xl text-xs text-red-400 shrink-0">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+        <form onSubmit={handleSubmit} className="space-y-3.5 text-xs overflow-y-auto pr-1 flex-1">
           
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-slate-400 font-semibold uppercase block mb-1">Make</label>
               <select value={make} onChange={(e) => setMake(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white">
@@ -115,36 +115,36 @@ export const CreateAuctionModal: React.FC<CreateAuctionModalProps> = ({ onClose,
 
           <div>
             <label className="text-slate-400 font-semibold uppercase block mb-1">Full Description</label>
-            <textarea required rows={3} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe vehicle history, upgrades, and condition..." className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white" />
+            <textarea required rows={2} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe vehicle history, upgrades, and condition..." className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white" />
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             <div>
-              <label className="text-slate-400 font-semibold uppercase block mb-1">Year</label>
-              <input type="number" required value={year} onChange={(e) => setYear(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white" />
+              <label className="text-slate-400 font-semibold uppercase block mb-1 text-[10px]">Year</label>
+              <input type="number" required value={year} onChange={(e) => setYear(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-white" />
             </div>
             <div>
-              <label className="text-slate-400 font-semibold uppercase block mb-1">Engine (CC)</label>
-              <input type="number" required value={engineCc} onChange={(e) => setEngineCc(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white" />
+              <label className="text-slate-400 font-semibold uppercase block mb-1 text-[10px]">Engine (CC)</label>
+              <input type="number" required value={engineCc} onChange={(e) => setEngineCc(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-white" />
             </div>
             <div>
-              <label className="text-slate-400 font-semibold uppercase block mb-1">Mileage (mi)</label>
-              <input type="number" required value={mileage} onChange={(e) => setMileage(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white" />
+              <label className="text-slate-400 font-semibold uppercase block mb-1 text-[10px]">Mileage (mi)</label>
+              <input type="number" required value={mileage} onChange={(e) => setMileage(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-white" />
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             <div>
-              <label className="text-slate-400 font-semibold uppercase block mb-1">Starting Bid ($)</label>
-              <input type="number" required value={startingBid} onChange={(e) => setStartingBid(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-mono" />
+              <label className="text-slate-400 font-semibold uppercase block mb-1 text-[10px]">Starting Bid ($)</label>
+              <input type="number" required value={startingBid} onChange={(e) => setStartingBid(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-white font-mono" />
             </div>
             <div>
-              <label className="text-slate-400 font-semibold uppercase block mb-1">Reserve Price ($)</label>
-              <input type="number" required value={reservePrice} onChange={(e) => setReservePrice(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-mono" />
+              <label className="text-slate-400 font-semibold uppercase block mb-1 text-[10px]">Reserve Price ($)</label>
+              <input type="number" required value={reservePrice} onChange={(e) => setReservePrice(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-white font-mono" />
             </div>
             <div>
-              <label className="text-slate-400 font-semibold uppercase block mb-1">Min Increment ($)</label>
-              <input type="number" required value={minBidIncrement} onChange={(e) => setMinBidIncrement(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-mono" />
+              <label className="text-slate-400 font-semibold uppercase block mb-1 text-[10px]">Min Increment ($)</label>
+              <input type="number" required value={minBidIncrement} onChange={(e) => setMinBidIncrement(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-white font-mono" />
             </div>
           </div>
 
@@ -156,7 +156,7 @@ export const CreateAuctionModal: React.FC<CreateAuctionModalProps> = ({ onClose,
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-orange-500 hover:bg-orange-400 text-slate-950 font-bold py-3 rounded-xl transition text-sm mt-4"
+            className="w-full bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-slate-950 font-bold py-3 rounded-xl transition text-xs sm:text-sm mt-4 shadow-lg shadow-orange-500/20"
           >
             {isSubmitting ? 'Publishing Auction...' : 'Publish Live Auction'}
           </button>

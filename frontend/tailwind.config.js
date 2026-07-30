@@ -16,14 +16,17 @@ export default {
           accent: '#00f2fe'
         },
         dark: {
-          900: '#090d16',
+          950: '#030712',
+          900: '#0b0f19',
           800: '#111827',
           700: '#1f2937',
           600: '#374151'
         }
       },
       fontFamily: {
-        sans: ['Inter', 'Outfit', 'sans-serif']
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        display: ['Outfit', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace']
       }
     },
   },
