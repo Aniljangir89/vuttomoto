@@ -158,13 +158,19 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
     await submitBid(amount, proxy);
   };
 
-  const isSeller = user && (user.id === auction.motorcycle.sellerId || user.email === auction.motorcycle.seller?.email || user.role === 'ADMIN');
+  const isSeller = user && (user.id === auction?.motorcycle?.sellerId || user.email === auction?.motorcycle?.seller?.email || user.role === 'ADMIN');
 
   const handleSellerAction = async (status: string) => {
     try {
       setIsSubmitting(true);
       const res = await api.updateAuctionStatus(auction.id, status);
-      setAuction(res.auction);
+      if (res.auction) {
+        setAuction((prev) => ({
+          ...prev,
+          ...res.auction,
+          motorcycle: res.auction.motorcycle || prev.motorcycle
+        }));
+      }
       onAuctionUpdated();
     } catch (err: any) {
       setErrorMessage(err.message || 'Failed to update status');
@@ -186,7 +192,11 @@ export const AuctionDetailModal: React.FC<AuctionDetailModalProps> = ({
       setCustomBidAmount('');
       setMaxProxyAmount('');
       if (res.auction) {
-        setAuction(res.auction);
+        setAuction((prev) => ({
+          ...prev,
+          ...res.auction,
+          motorcycle: res.auction.motorcycle || prev.motorcycle
+        }));
       }
       // Re-fetch complete bid history from DB
       const fresh = await api.getAuction(auction.id);

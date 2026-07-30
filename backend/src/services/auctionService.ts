@@ -287,7 +287,22 @@ export async function updateAuctionStatus(
 
   const updated = await prisma.auction.update({
     where: { id: auctionId },
-    data: { status: finalStatus }
+    data: { status: finalStatus },
+    include: {
+      motorcycle: {
+        include: {
+          seller: { select: { id: true, name: true, email: true } }
+        }
+      },
+      winningUser: { select: { id: true, name: true, email: true } },
+      bids: {
+        orderBy: { timestamp: 'desc' },
+        take: 50,
+        include: {
+          user: { select: { id: true, name: true, email: true } }
+        }
+      }
+    }
   });
 
   emitAuctionStatusUpdate(auctionId, {
