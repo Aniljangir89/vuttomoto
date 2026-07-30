@@ -78,7 +78,13 @@ export async function createAuctionHandler(req: AuthRequest, res: Response) {
       endTime: new Date(data.endTime),
       antiSnipeSeconds: data.antiSnipeSeconds,
       motorcycle: {
-        ...data.motorcycle,
+        make: data.motorcycle.make,
+        model: data.motorcycle.model,
+        year: data.motorcycle.year,
+        mileage: data.motorcycle.mileage,
+        engineCc: data.motorcycle.engineCc,
+        condition: data.motorcycle.condition,
+        titleStatus: data.motorcycle.titleStatus,
         imagesJson: JSON.stringify(data.motorcycle.images),
         specsJson: JSON.stringify(data.motorcycle.specs),
         sellerId: req.user.id
